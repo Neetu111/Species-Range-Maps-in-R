@@ -25,23 +25,20 @@ library(spam)
 library(maps)
 library(fields)
 library(rworldmap)
+# install.packages("spoccutils_0.1.0.zip", repos = NULL)			# for installing spoccutils package 
 library(spoccutils)
-install.packages("spoccutils_0.1.0.zip", repos = NULL)
 
-dat <- occ(query = 'Accipiter striatus', from = c('gbif', 'ecoengine'), gbifopts = gopts, ecoengineopts = eopts)
-map_ggplot(dat)
-trying.dat <- occ(query = 'Hepatica nobilis', from = c('gbif', 'ecoengine'))
 
 main.data <- occ(query = 'Accipiter striatus', from = 'gbif')			# occurance data of Hepatica nobilis species
 main.data$gbif						# to see the data
 main.data$ebird$data				# an empty data
 main.data$gbif$metadata				# to see the parameters, query, time the call executed
-out <- occ(query = 'Accipiter striatus', from = c('gbif', 'ebird'))
-df <- occ2df(out)
-head(df)							# to see the data
-tail(df)							# to see the data
+occ.data <- occ(query = 'Accipiter striatus', from = c('gbif', 'ebird'))
+plot.data <- occ2df(occ.data)
+head(plot.data)							# to see the data
+tail(plot.data)							# to see the data
 #gopts <- list(country = 'US')
 #eopts <- list(county = county.fips)
 
-dat <- occ(query = 'Accipiter striatus', from = c('gbif', 'ecoengine'))
-map_ggplot(dat)
+occ.plot.data <- occ(query = 'Accipiter striatus', from = c('gbif', 'ecoengine'))
+map_ggplot(occ.plot.data)
