@@ -1,4 +1,4 @@
-# Libraries needed to use this package
+# Libraries needed to use this function
 # library(ggplot2)
 # library(spoccutils)
 # library(sp)
