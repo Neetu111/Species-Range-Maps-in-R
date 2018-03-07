@@ -1,4 +1,5 @@
 # Libraries needed to use this function
+# library(spocc)
 # library(ggplot2)
 # library(spoccutils)
 # library(sp)
@@ -13,7 +14,8 @@ SpeciesRangeMap <- function(SpeciesName, SourceName, DataOnMap = TRUE, ConvexHul
 	occ.data <- occ(query = SpeciesName, from = SourceName)
 	df.occ.data <- occ2df(occ.data)
 	if(!nrow(df.occ.data)) stop("Because this species has no data on chosen source")
-	mat.occ.data <- data.matrix(df.occ.data, rownames.force = NA)	# converting to matrix 
+	#mat.occ.data <- data.matrix(df.occ.data, rownames.force = NA)	# converting to matrix
+	mat.occ.data <- as.matrix.data.frame(df.occ.data, rownames.force = NA)	# converting to matrix 
 	mat.occ.hull.data <- mat.occ.data[,c("longitude","latitude")]  	# taking longitude and latitude of the data
 	data(wrld_simpl)								# getting data of world map
 	if(DataOnMap){
