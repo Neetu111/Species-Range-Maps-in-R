@@ -3,7 +3,8 @@
 ### In this repository, script can be used for the following task:
 1. Downloading the species occurrence data from GBIF 
 2. Displaying this data on the world map
-3. Clipping the convex hull polygon around the occurrence data point 
+3. Making convex hull polygon around the occurrence data point 
+4. Clipping the convex hull polygon
 
 ### SpcRngMap.R
 Contains code for the above task.
