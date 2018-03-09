@@ -9,4 +9,4 @@
 ### SpcRngMap.R
 Contains code for the above task.
 ### FunSpcRngMap.R
-Contains function to apply the above code on any kind of species. 
+Contains function to apply the above code on any kind of species except for clipping the convex hull polygon. 
