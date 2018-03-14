@@ -16,7 +16,7 @@ library(rgeos)
 library(maptools)
 library(raster)
 library(dismo)
-library(alphahull)
+
 
 #############################################################################################################
 # Visualize the Data
@@ -30,7 +30,8 @@ head(df.occ.data)
 map_ggplot(occ.data)
 
 # Convex Hull Polygon Around the Data Point
-df.occ.hull.data <- cbind.data.frame(longitude = df.occ.data$longitude, latitude = df.occ.data$latitude)	
+df.occ.hull.data <- cbind.data.frame(longitude = df.occ.data$longitude, latitude = df.occ.data$latitude)
+df.occ.hull.data <- na.omit(df.occ.hull.data)	
 mat.occ.hull.data <- as.matrix.data.frame(df.occ.hull.data, rownames.force = NA)
 data(wrld_simpl)								
 plot(wrld_simpl,col="light yellow")				
@@ -39,11 +40,13 @@ occ.hull.data <- convHull(mat.occ.hull.data)
 plot(occ.hull.data,col=rgb(0, 0, 125, max = 255, alpha = 20*255/100),add=T)	
 
 # Clip the polygon to world map
-df.occ.hull.data <- cbind.data.frame(longitude = df.occ.data$longitude, latitude = df.occ.data$latitude)	
-df.hull.land.data = subset(df.occ.hull.data, !is.na(longitude))
-df.hull.land.data = df.hull.land.data[!duplicated(paste(df.hull.land.data$longitude, df.hull.land.data$latitude)), ]
-mat.hull.land.data <- as.matrix.data.frame(df.hull.land.data, rownames.force = NA)
-hull.land.data = ashape(mat.hull.land.data, alpha = 5.5)
-plot(wrld_simpl, xlim=c( -135.3431, -49.60951), ylim=c(-30.94649, 58.36106), axes=TRUE, col="light yellow")
-points(mat.occ.hull.data[,1], mat.occ.hull.data[,2],col="red",cex=0.5)		
-plot(hull.land.data,col=rgb(0, 0, 125, max = 255, alpha = 80*255/100),add=T)	
+ch <- chull(mat.occ.hull.data[,1], mat.occ.hull.data[,2])
+coords <- mat.occ.hull.data[c(ch, ch[1]), ]
+sp_poly <- SpatialPolygons(list(Polygons(list(Polygon(coords)), ID=1)))
+sp_poly_df <- SpatialPolygonsDataFrame(sp_poly, data=data.frame(ID=1))
+projection(sp_poly_df) <- as.character(NA) 
+projection(wrld_simpl) <- as.character(NA) 
+land.hull <- gIntersection(wrld_simpl, sp_poly_df, byid=TRUE)
+plot(wrld_simpl,col="light yellow")
+points(mat.occ.hull.data[,1], mat.occ.hull.data[,2],col="red",cex=0.5)
+plot(land.hull, col=rgb(0, 0, 125, max = 255, alpha = 20*255/100),add=T)
