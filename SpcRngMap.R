@@ -50,3 +50,10 @@ land.hull <- gIntersection(wrld_simpl, sp_poly_df, byid=TRUE)
 plot(wrld_simpl,col="light yellow")
 points(mat.occ.hull.data[,1], mat.occ.hull.data[,2],col="red",cex=0.5)
 plot(land.hull, col=rgb(0, 0, 125, max = 255, alpha = 20*255/100),add=T)
+
+
+# Zoomed Clipped Convex Hull Polygon
+plot(wrld_simpl, xlim=c( -135.3431, -49.60951), ylim=c(-30.94649, 58.36106), axes=TRUE, col="light yellow")
+points(mat.occ.hull.data[,1], mat.occ.hull.data[,2],col="red",cex=0.5)
+plot(land.hull, col=rgb(0, 0, 125, max = 255, alpha = 20*255/100),add=T)
+
